@@ -10,10 +10,10 @@ pip3 install pgzero
 # Linux
 apt-get install python3 python3-pip virtualenv python3-pgzero
 
-virtualenv venv
-source venv/bin/activate
+virtualenv .venv
+source .venv/bin/activate
 pip3 install -r requirements.txt
-./run.sh
+bash run.sh
 ```
 
 https://pygame-zero.readthedocs.io/en/stable/

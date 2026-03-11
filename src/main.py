@@ -51,18 +51,10 @@ def level_reset(level):
         flowers_pos = {'flower': flower_pos, 'flower2': flower2_pos}
         flower_score = {"flower": 0, "flower2": 0}
 
-    if level == 2:
-        flower_pos = (250, 200)
-        flower2_pos = (300, 350)
-        flower3_pos = (900, 900)
-        flower4_pos = (900, 900)
-        flowers_pos = {'flower': flower_pos, 'flower2': flower2_pos}
-        flower_score = {"flower": 0, "flower2": 0}
-
     elif level == 2:
         flower_pos = (200, 200)
         flower2_pos = (300, 300)
-        flower3_pos = (400, 400)
+        flower3_pos = (400, 200)
         flower4_pos = (100, 100)
         flowers_pos = {'flower': flower_pos, 'flower2': flower2_pos, 'flower3': flower3_pos}
         flower_score = {"flower": 0, "flower2": 0, "flower3": 0}
@@ -86,7 +78,7 @@ def level_reset(level):
     elif level == 5:
         flower_pos = (400, 400)
         flower2_pos = (300, 300)
-        flower3_pos = (200, 200)
+        flower3_pos = (200, 400)
         flower4_pos = (500, 500)
         flowers_pos = {'flower': flower_pos, 'flower2': flower2_pos, 'flower3': flower3_pos, 'flower4': flower4_pos}
         flower_score = {"flower": 0, "flower2": 0, "flower3": 0, "flower4": 0}
@@ -95,7 +87,7 @@ def level_reset(level):
         flower_pos = (500, 200)
         flower2_pos = (300, 500)
         flower3_pos = (400, 300)
-        flower4_pos = (300, 200)
+        flower4_pos = (300, 500)
         flowers_pos = {'flower': flower_pos, 'flower2': flower2_pos, 'flower3': flower3_pos, 'flower4': flower4_pos}
         flower_score = {"flower": 0, "flower2": 0, "flower3": 0, "flower4": 0}
 
@@ -129,15 +121,18 @@ def draw():
         flower4.draw()
     butterfly.draw()
     print(butterfly.pos)
-    print(flower_pos)
     score_y = False
 
     # Check each flower position against the butterfly
+    # print(f"DEBUG: flower_pos {flower_pos}")
+    current_flower_pos = 0
     for flower_key, flower_pos_val in flowers_pos.items():
         print(f"flower_key: {flower_key} flower_pos_val: {flower_pos_val}")
+
         # DEBUG: Box flower pos
         # BOX = Rect((flower_pos_val[0], flower_pos_val[1]), (25, 25))
         # screen.draw.rect(BOX, GREEN)
+
         score_x = False
         score_y = False
         print("flower_pos_val_0", flower_pos_val[0])
@@ -150,12 +145,17 @@ def draw():
             print("score_y", score_y)
         if score_x and score_y:
             add_score(flower_score, flower_key)
+            print(f"found flower_key {flower_key} flower_pos_val: {flower_pos_val}")
             print("add score")
+            flower_bw.pos = flower_pos_val
+            flower_bw.draw()
+        current_flower_pos += 1
+
+    game_frame += 1
 
     total_score = get_score(flower_score)
 
     result = check_level(flower_score, total_score)
-    game_frame += 1
 
     # Draw frames to allow Next Level, Game Completed text to show
     global frames_pause
@@ -185,7 +185,6 @@ def draw():
         draw_text("Game Completed")
     elif result == "new_game":
         draw_text("New Game")
-
 
 
 def draw_text(text):
@@ -227,7 +226,7 @@ def check_level(flower_score, total_score):
             level = 0
             print("Restart")
             return "game_finished"
-        
+
 
 def pause():
     print("POS", butterfly.pos)
@@ -259,6 +258,8 @@ flower = Actor('flower')
 flower2 = Actor('flower')
 flower3 = Actor('flower')
 flower4 = Actor('flower')
+
+flower_bw = Actor('flower_bw')
 
 level += 1
 level_reset(level)
